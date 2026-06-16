@@ -14,6 +14,12 @@ app.get("/", (req, res) => {
     })
 })
 
+// Routes import
+import userRoutes from "./routes/user.routes.js";
+
+// Using routes
+app.use("/api/user", userRoutes); 
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
