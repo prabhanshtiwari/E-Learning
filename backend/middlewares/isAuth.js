@@ -7,7 +7,7 @@ export const isAuth = async (req, res, next) => {
 
     if (!token)
       return res.status(500).json({
-        message: "Login First",
+        message: "Dont have token to authenticate",
       });
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
@@ -17,7 +17,7 @@ export const isAuth = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(500).json({
-      message: "Login First",
+      message: "User not authenticated",
     });
   }
 };
