@@ -1,5 +1,6 @@
 import TryCatch from "../middlewares/TryCatch.js";
 import { Course } from "../models/course.model.js";
+import { Lecture } from "../models/lecture.model.js";
 
 export const createCourse = TryCatch(async (req, res) => {
   const { title, description, category, createdBy, duration, price } = req.body;
@@ -18,5 +19,30 @@ export const createCourse = TryCatch(async (req, res) => {
 
   res.status(201).json({
     message: "Course created successfully",
+  });
+});
+
+export const addLectures = TryCatch(async (req, res) => {
+  const course = await Course.findById(req.params.id);
+
+  if (!course)
+    return res.status(404).json({
+      message: "Course not found with this id",
+    });
+
+  const { title, description } = req.body;
+
+  const file = req.file;
+
+  const lecture = await Lecture.create({
+    title,
+    description,
+    video: file?.path,
+    course: course._id,
+  });
+
+  res.status(201).json({
+    message: "Lecture added successfully",
+    lecture,
   });
 });
