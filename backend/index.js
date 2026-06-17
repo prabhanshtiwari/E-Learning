@@ -1,8 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./db/index.js";
+import Razorpay from "razorpay";
 
 dotenv.config();
+
+export const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 const app = express();
 
