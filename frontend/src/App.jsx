@@ -1,15 +1,14 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/Home.jsx";
-import Header from "./components/header/Header.jsx";
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/home/Home";
+import Header from "./components/header/Header";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
-      <Header />
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
