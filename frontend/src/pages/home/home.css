@@ -1,26 +1,33 @@
-.footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.home {
+  background-color: #f5f5f5;
+  padding: 100px 0;
   text-align: center;
-  gap: 15px; /* Adds space between the text and the icons */
-  padding: 20px;
-}
 
-.social-links {
-  display: flex;             /* Aligns items in a row */
-  justify-content: center;   /* Centers them horizontally */
-  align-items: center;       /* Centers them vertically */
-  gap: 20px;                 /* Adds perfectly even space between each icon */
+  .home-content {
+    max-width: 800px;
+    margin: 0 auto;
 
-  a {
-    display: flex;
-    color: #666;             /* Or whatever color matches your theme */
-    font-size: 24px;         /* Controls the size of the icons */
-    transition: color 0.2s ease;
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
 
-    &:hover {
-      color: #007bff;        /* Change color on hover */
+      @media (max-width: 768px) {
+        font-size: 28px;
+      }
+    }
+
+    p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 40px;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
+    }
+
+    button {
+      padding: 12px 24px;
     }
   }
 }
