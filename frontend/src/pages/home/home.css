@@ -1,0 +1,26 @@
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 15px; /* Adds space between the text and the icons */
+  padding: 20px;
+}
+
+.social-links {
+  display: flex;             /* Aligns items in a row */
+  justify-content: center;   /* Centers them horizontally */
+  align-items: center;       /* Centers them vertically */
+  gap: 20px;                 /* Adds perfectly even space between each icon */
+
+  a {
+    display: flex;
+    color: #666;             /* Or whatever color matches your theme */
+    font-size: 24px;         /* Controls the size of the icons */
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #007bff;        /* Change color on hover */
+    }
+  }
+}
