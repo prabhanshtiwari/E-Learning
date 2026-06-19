@@ -1,23 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import "./auth.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserData } from "../../context/UserContext";
+import { MdPassword } from "react-icons/md";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { btnLoading, registerUser } = UserData();
+  const [name, setName] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    await registerUser(name, email, password, navigate);
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-form">
         <h2>Register</h2>
-        <form>
+        <form onSubmit={submitHandler}>
           <label htmlFor="name">Name</label>
-          <input type="text" required />
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
 
           <label htmlFor="email">Email</label>
-          <input type="email" required />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
+            required
+          />
 
           <label htmlFor="password">Password</label>
-          <input type="password" required />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setpassword(e.target.value)}
+            required
+          />
 
-          <button className="common-btn">Register</button>
+          <button type="submit" disabled={btnLoading} className="common-btn">
+            {btnLoading ? "Please Wait..." : "Register"}
+          </button>
         </form>
         <p>
           Already have an account? <Link to={"/login"}>Login</Link>
