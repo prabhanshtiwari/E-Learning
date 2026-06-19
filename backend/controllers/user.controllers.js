@@ -106,8 +106,13 @@ export const loginUser = TryCatch(async (req, res) => {
 });
 
 export const myProfile = TryCatch(async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({
+      message: "Unauthorized. Please log in.",
+    });
+  }
+
   const user = await User.findById(req.user._id);
 
   res.json({ user });
 });
-

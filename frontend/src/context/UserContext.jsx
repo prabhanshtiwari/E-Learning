@@ -72,10 +72,21 @@ export const UserContextProvider = ({ children }) => {
   }
 
   async function fetchUser() {
+    // 1. Get the token first
+    const token = localStorage.getItem("token");
+
+    // 2. If there is no token, don't call the backend!
+    if (!token) {
+      setIsAuth(false);
+      setUser(null);
+      setLoading(false);
+      return; // Exit early
+    }
+
     try {
       const { data } = await axios.get(`${server}/api/user/me`, {
         headers: {
-          token: localStorage.getItem("token"),
+          token: token, // Pass the verified token here
         },
       });
 
@@ -83,7 +94,10 @@ export const UserContextProvider = ({ children }) => {
       setUser(data.user);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      // If the token in localStorage is invalid/expired, reset auth states quietly
+      console.log("Session expired or invalid token");
+      setIsAuth(false);
+      setUser(null);
       setLoading(false);
     }
   }

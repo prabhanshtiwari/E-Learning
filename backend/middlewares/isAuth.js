@@ -6,7 +6,7 @@ export const isAuth = async (req, res, next) => {
     const token = req.headers.token;
 
     if (!token)
-      return res.status(500).json({
+      return res.status(401).json({
         message: "Dont have token to authenticate",
       });
 
@@ -14,10 +14,14 @@ export const isAuth = async (req, res, next) => {
 
     req.user = await User.findById(decodedData._id);
 
+    if (!req.user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     next();
   } catch (error) {
-    res.status(500).json({
-      message: "User not authenticated",
+    res.status(401).json({
+      message: "Session expired or invalid token",
     });
   }
 };
