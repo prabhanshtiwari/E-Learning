@@ -88,7 +88,7 @@ export const paymentVerification = TryCatch(async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
-    const course = await Courses.findById(req.params.id);
+    const course = await Course.findById(req.params.id);
 
     user.subscription.push(course._id);
 
