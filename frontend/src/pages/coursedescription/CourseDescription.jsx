@@ -15,7 +15,7 @@ const CourseDescription = ({ user }) => {
   const [loading, setLoading] = useState(false);
 
   const { fetchUser } = UserData();
-  const { fetchCourse, course, fetchCourses } = CourseData();
+  const { fetchCourse, course, fetchCourses, fetchMyCourses } = CourseData();
 
   useEffect(() => {
     fetchCourse(params.id);
@@ -23,67 +23,73 @@ const CourseDescription = ({ user }) => {
 
   const checkoutHandler = async () => {
     const token = localStorage.getItem("token");
-
     setLoading(true);
 
-    const {
-      data: { order },
-    } = await axios.post(
-      `${server}/api/course/checkout/${params.id}`,
-      {},
-      {
-        headers: {
-          token,
-        },
-      },
-    );
-
-    const options = {
-      key: "rzp_test_T2cqr1DvBast8j", // Enter the Key ID generated from the Dashboard
-      amount: order.amount, // Amount is in currency subunits.
-      currency: "INR",
-      name: "E learning", //your business name
-      description: "Learn with us",
-      // image: "https://example.com/your_logo",
-      order_id: order.id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-
-      handler: async function (response) {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-          response;
-
-        try {
-          const { data } = await axios.post(
-            `${server}/api/course/verification/${params.id}`,
-            {
-              razorpay_order_id,
-              razorpay_payment_id,
-              razorpay_signature,
-            },
-            {
-              headers: {
-                token,
-              },
-            },
-          );
-
-          await fetchUser();
-          await fetchCourses();
-          toast.success(data.message);
-          setLoading(false);
-          navigate(`/payment-success/${razorpay_payment_id}`);
-        } catch (error) {
-          toast.error(error.response.data.message);
-          setLoading(false);
+    try {
+      const {
+        data: { order },
+      } = await axios.post(
+        `${server}/api/course/checkout/${params.id}`,
+        {},
+        {
+          headers: {
+            token,
+          },
         }
-      },
-      theme: {
-        color: "#8a4baf",
-      },
-    };
+      );
 
-    const razorpay = new window.Razorpay(options);
+      const options = {
+        key: "rzp_test_T2cqr1DvBast8j", // Enter the Key ID generated from the Dashboard
+        amount: order.amount, // Amount is in currency subunits.
+        currency: "INR",
+        name: "E learning", // your business name
+        description: "Learn with us",
+        order_id: order.id,
 
-    razorpay.open();
+        handler: async function (response) {
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
+
+          try {
+            const { data } = await axios.post(
+              `${server}/api/course/verification/${params.id}`,
+              {
+                razorpay_order_id,
+                razorpay_payment_id,
+                razorpay_signature,
+              },
+              {
+                headers: {
+                  token,
+                },
+              }
+            );
+
+            await fetchUser();
+            await fetchCourses();
+            await fetchMyCourses();
+            toast.success(data.message);
+            setLoading(false);
+            navigate(`/payment-success/${razorpay_payment_id}`);
+          } catch (error) {
+            console.error("Verification Error:", error);
+            const msg = error.response?.data?.message || "Payment verification failed. Please check backend.";
+            toast.error(msg);
+            setLoading(false);
+          }
+        },
+        theme: {
+          color: "#8a4baf",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      const msg = error.response?.data?.message || "Could not initialize checkout order.";
+      toast.error(msg);
+      setLoading(false);
+    }
   };
 
   return (
