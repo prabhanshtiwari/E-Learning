@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./auth.css";
 import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../../context/UserContext";
+import { CourseData } from "../../context/CourseContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,9 +10,11 @@ const Login = () => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
+  const { fetchMyCourses } = CourseData();
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    await loginUser(email, password, navigate);
+    await loginUser(email, password, navigate, fetchMyCourses);
   };
   return (
     <div className="auth-page">
