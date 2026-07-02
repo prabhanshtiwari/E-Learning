@@ -1,19 +1,17 @@
 import React from "react";
 import "./common.css";
 import { Link } from "react-router-dom";
-import { AiFillHome, AiOutlineLogout } from "react-icons/ai";
-import { FaBook, FaUserAlt } from "react-icons/fa";
-import { UserData } from "../../context/UserContext";
+import { FaHome, FaBook, FaUserAlt  } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 
 const Sidebar = () => {
-  const { user } = UserData();
   return (
     <div className="sidebar">
       <ul>
         <li>
           <Link to={"/admin/dashboard"}>
             <div className="icon">
-              <AiFillHome />
+              <FaHome />
             </div>
             <span>Home</span>
           </Link>
@@ -24,29 +22,28 @@ const Sidebar = () => {
             <div className="icon">
               <FaBook />
             </div>
-            <span>Courses</span>
+            <span>Course</span>
           </Link>
         </li>
 
-        {user && user.mainrole === "superadmin" && (
-          <li>
-            <Link to={"/admin/users"}>
-              <div className="icon">
-                <FaUserAlt />
-              </div>
-              <span>Users</span>
-            </Link>
-          </li>
-        )}
+        <li>
+          <Link to={"/admin/users"}>
+            <div className="icon">
+              <FaUserAlt />
+            </div>
+            <span>Users</span>
+          </Link>
+        </li>
 
         <li>
-          <Link to={"/account"}>
+          <Link to={"/admin/users"}>
             <div className="icon">
-              <AiOutlineLogout />
+              <FiLogOut />
             </div>
             <span>Logout</span>
           </Link>
         </li>
+
       </ul>
     </div>
   );

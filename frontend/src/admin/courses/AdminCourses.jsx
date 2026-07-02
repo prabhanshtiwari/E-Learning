@@ -2,11 +2,8 @@ import React, { useState } from "react";
 import Layout from "../Utils/Layout";
 import { useNavigate } from "react-router-dom";
 import { CourseData } from "../../context/CourseContext";
-import CourseCard from "../../components/coursecard/CourseCard";
+import CourseCard from "../../components/courseCard/CourseCard";
 import "./admincourses.css";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { server } from "../../main";
 
 const categories = [
   "Web Development",
@@ -31,57 +28,20 @@ const AdminCourses = ({ user }) => {
   const [imagePrev, setImagePrev] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
 
-  const changeImageHandler = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      setImagePrev(reader.result);
-      setImage(file);
-    };
-  };
-
   const { courses, fetchCourses } = CourseData();
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    setBtnLoading(true);
+  const changeImageHandler = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file); // 👈 FIX: Save the raw file object to state so FormData can use it
 
-    const myForm = new FormData();
-
-    myForm.append("title", title);
-    myForm.append("description", description);
-    myForm.append("category", category);
-    myForm.append("price", price);
-    myForm.append("createdBy", createdBy);
-    myForm.append("duration", duration);
-    myForm.append("file", image);
-
-    try {
-      const { data } = await axios.post(`${server}/api/admin/course/new`, myForm, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      });
-
-      toast.success(data.message);
-      setBtnLoading(false);
-      await fetchCourses();
-      setImage("");
-      setTitle("");
-      setDescription("");
-      setDuration("");
-      setImagePrev("");
-      setCreatedBy("");
-      setPrice("");
-      setCategory("");
-    } catch (error) {
-      toast.error(error.response.data.message);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImagePrev(reader.result);
+      };
     }
   };
-
   return (
     <Layout>
       <div className="admin-courses">
@@ -102,37 +62,37 @@ const AdminCourses = ({ user }) => {
           <div className="add-course">
             <div className="course-form">
               <h2>Add Course</h2>
-              <form onSubmit={submitHandler}>
+              <form>
                 <label htmlFor="text">Title</label>
                 <input
                   type="text"
+                  required
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  required
                 />
 
                 <label htmlFor="text">Description</label>
                 <input
                   type="text"
+                  required
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  required
                 />
 
                 <label htmlFor="text">Price</label>
                 <input
                   type="number"
+                  required
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  required
                 />
 
-                <label htmlFor="text">createdBy</label>
+                <label htmlFor="text">Created By</label>
                 <input
                   type="text"
+                  required
                   value={createdBy}
                   onChange={(e) => setCreatedBy(e.target.value)}
-                  required
                 />
 
                 <select
@@ -140,23 +100,37 @@ const AdminCourses = ({ user }) => {
                   onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value={""}>Select Category</option>
-                  {categories.map((e) => (
-                    <option value={e} key={e}>
-                      {e}
-                    </option>
-                  ))}
+                  {categories.map((category) => {
+                    return (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    );
+                  })}
                 </select>
 
                 <label htmlFor="text">Duration</label>
                 <input
-                  type="number"
+                  type="text"
+                  required
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  required
                 />
 
                 <input type="file" required onChange={changeImageHandler} />
-                {imagePrev && <img src={imagePrev} alt="" width={300} />}
+                {imagePrev && (
+                  <div className="image-preview">
+                    <img
+                      src={imagePrev}
+                      alt="Course Preview"
+                      style={{
+                        width: "150px",
+                        marginTop: "10px",
+                        borderRadius: "5px",
+                      }}
+                    />
+                  </div>
+                )}
 
                 <button
                   type="submit"
