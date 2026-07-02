@@ -74,34 +74,43 @@ export const deleteLecture = TryCatch(async (req, res) => {
 const unlinkAsync = promisify(fs.unlink);
 
 export const deleteCourse = TryCatch(async (req, res) => {
+  // 1. Find the course first and handle if it doesn't exist
   const course = await Course.findById(req.params.id);
 
+  if (!course) {
+    return res.status(404).json({
+      message: "Course not found",
+    });
+  }
+
+  // 2. Find all lectures associated with this course
   const lectures = await Lecture.find({ course: course._id });
 
-  // deleting all the lectures
+  // 3. Delete all the video files from local storage safely
   await Promise.all(
     lectures.map(async (lecture) => {
-      await unlinkAsync(lecture.video);
-      console.log("Video deleted");
+      if (lecture.video && fs.existsSync(lecture.video)) {
+        await unlinkAsync(lecture.video);
+        console.log(`Video deleted: ${lecture.video}`);
+      }
     }),
   );
 
-  // deleted course thimbnail image
-  rm(course.image, () => {
-    console.log("Course Thumbnail image deleted");
-  });
+  // 4. Delete the course thumbnail image safely
+  if (course.image && fs.existsSync(course.image)) {
+    rm(course.image, () => {
+      console.log("Course Thumbnail image deleted");
+    });
+  }
 
-  // deleted all lectures from the databse
-  await Lecture.find({ course: req.params.id }).deleteMany();
+  // 5. FIX: Delete all lectures of this course from the database properly
+  await Lecture.deleteMany({ course: course._id });
 
-  // deleted course from the database
-  await Course.deleteOne();
-
-  // Deleted course from the user's subscription array
-  await User.updateMany({}, { $pull: { subscription: req.params.id } });
+  // 7. Remove course from all users' subscription arrays
+  await User.updateMany({}, { $pull: { subscription: course._id } });
 
   res.json({
-    message: "Course deleted successfully",
+    message: "Course and all its lectures deleted successfully",
   });
 });
 
@@ -121,3 +130,37 @@ export const getAllStats = TryCatch(async (req, res) => {
   });
 });
 
+export const getAllUser = TryCatch(async (req, res) => {
+  // Fetch all users except the currently logged-in admin/superadmin
+  const users = await User.find({ _id: { $ne: req.user._id } }).select(
+    "-password",
+  );
+
+  res.json({ users });
+});
+
+export const updateRole = TryCatch(async (req, res) => {
+  // 1. Authorization check
+  // if (req.user.mainrole !== "superadmin") {
+  //   return res.status(403).json({
+  //     message: "This endpoint is restricted to superadmin only",
+  //   });
+  // }
+
+  // 2. Fetch user and check if they exist (Crucial Guard Clause)
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  // 3. Clean toggle logic
+  user.role = user.role === "admin" ? "user" : "admin";
+  await user.save();
+
+  return res.status(200).json({
+    message: `Role updated to ${user.role} successfully`,
+    user, // Optional: Returning the updated user object makes it easier to update state on the frontend
+  });
+});

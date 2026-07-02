@@ -1,4 +1,4 @@
-.admin-courses {
+/* .admin-courses {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -50,5 +50,157 @@
         }
       }
     }
+  }
+} */
+
+/* Base container split layout */
+.admin-courses {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Left Panel: Course Listing */
+.admin-courses .left {
+  flex: 1;
+  min-width: 320px;
+}
+
+.admin-courses .left h1 {
+  font-size: 1.75rem;
+  color: #1e293b;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.admin-courses .left .dashboard-content {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Right Panel: Add Course Wrapper */
+.admin-courses .right {
+  position: sticky;
+  top: 20px; /* Keeps the form pinned visually while scrolling through long course lists */
+}
+
+/* Form Container Styling */
+.admin-courses .course-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 340px;
+  box-sizing: border-box;
+}
+
+.admin-courses .course-form h2 {
+  font-size: 1.5rem;
+  color: #8a4baf;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Form layout items */
+.admin-courses .course-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-courses .course-form form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Inputs and Select drop downs */
+.admin-courses .course-form form input[type="text"],
+.admin-courses .course-form form input[type="number"],
+.admin-courses .course-form form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #1e293b;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.admin-courses .course-form form input:focus,
+.admin-courses .course-form form select:focus {
+  outline: none;
+  border-color: #8a4baf;
+  box-shadow: 0 0 0 3px rgba(138, 75, 175, 0.15);
+}
+
+/* Style for the File Input type */
+.admin-courses .course-form form input[type="file"] {
+  margin-bottom: 18px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Form actions / common button modifications */
+.admin-courses .course-form .common-btn {
+  background-color: #8a4baf;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  margin-top: 5px;
+}
+
+.admin-courses .course-form .common-btn:hover {
+  background-color: #6d3593;
+}
+
+.admin-courses .course-form .common-btn:disabled {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Preview Thumbnail Frame */
+.image-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+  background-color: #f8fafc;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px dashed #cbd5e1;
+}
+
+/* Media Queries for tablets and mobile */
+@media (max-width: 900px) {
+  .admin-courses {
+    flex-direction: column-reverse; /* Puts the form on top on small screens */
+    align-items: center;
+  }
+  
+  .admin-courses .right {
+    position: static;
+    width: 100%;
+  }
+
+  .admin-courses .course-form {
+    width: 100%;
   }
 }

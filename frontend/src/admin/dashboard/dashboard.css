@@ -1,4 +1,4 @@
-.main-content {
+/* .main-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,5 +16,69 @@
     &:hover {
       background-color: #432456;
     }
+  }
+} */
+
+/* Dashboard container layout */
+.main-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 20px; /* Modern spacing instead of fragile margins */
+  padding: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Individual Stat Cards */
+.main-content .box {
+  flex: 1;
+  min-width: 220px; /* Prevents cards from getting squished too tiny */
+  max-width: 320px;
+  background-color: #8a4baf;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+/* Card title styling (e.g., "Total Courses") */
+.main-content .box p:first-child {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+/* Numeric dynamic metrics value */
+.main-content .box p:last-child {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Interactive card hover states */
+.main-content .box:hover {
+  background-color: #432456;
+  transform: translateY(-4px); /* Subtle elevate effect */
+  box-shadow: 0 10px 15px -3px rgba(67, 36, 86, 0.3);
+}
+
+/* Simple mobile screen centering */
+@media (max-width: 640px) {
+  .main-content {
+    justify-content: center;
+  }
+  .main-content .box {
+    max-width: 100%;
+    flex: auto;
+    width: 100%;
   }
 }

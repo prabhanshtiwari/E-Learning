@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./users.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 const AdminUsers = ({ user }) => {
   const navigate = useNavigate();
 
-  if (user && user.mainrole !== "superadmin") return navigate("/");
+  if (user && user.role !== "admin") return navigate("/");
 
   const [users, setUsers] = useState([]);
 

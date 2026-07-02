@@ -1,4 +1,4 @@
-.about {
+/* .about {
   padding: 80px 0;
   text-align: center;
   min-height: 55vh;
@@ -18,5 +18,153 @@
       color: #333;
       line-height: 1.6;
     }
+  }
+} */
+
+/* Base Layout */
+.about {
+  padding: 80px 20px;
+  background-color: #ffffff; /* Clean professional white background */
+  min-height: 70vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333333;
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.about-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.about-header h2 {
+  font-size: 38px;
+  color: #8a4baf; /* Your signature purple */
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about-header .subtitle {
+  font-size: 18px;
+  color: #666666;
+  font-weight: 300;
+}
+
+/* Section Common Styles */
+.about-section {
+  margin-bottom: 60px;
+}
+
+.about-section h3 {
+  font-size: 26px;
+  color: #222222;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+
+/* Underline decoration for headings */
+.about-section h3::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #8a4baf;
+  margin: 8px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* Mission Section */
+.mission-section p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #444444;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Core Values Section */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.value-card {
+  background: #fdfdfd;
+  padding: 30px 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle professional shadow */
+  border-top: 4px solid #8a4baf;
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+}
+
+.value-card h4 {
+  font-size: 20px;
+  color: #8a4baf;
+  margin-bottom: 12px;
+}
+
+.value-card p {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+}
+
+/* Stats Section */
+.stats-section {
+  background-color: #f9f6fc; /* Very light subtle purple tint for contrast */
+  border-radius: 12px;
+  padding: 40px 20px;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 36px;
+  font-weight: bold;
+  color: #8a4baf;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #555555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .about {
+    padding: 50px 20px;
+  }
+  .about-header h2 {
+    font-size: 32px;
+  }
+  .stats-grid {
+    flex-direction: column;
+    gap: 30px;
   }
 }

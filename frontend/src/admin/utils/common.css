@@ -1,4 +1,4 @@
-.sidebar {
+/* .sidebar {
   width: 200px;
   height: 100%;
   left: 0;
@@ -48,4 +48,107 @@
   display: flex;
   min-height: 80vh;
   margin-top: 20px;
+} */
+
+/* Custom CSS Variables for easy theme tweaks */
+:root {
+  --sidebar-bg: #1e1b4b;       /* Dark Indigo */
+  --sidebar-hover: #312e81;    /* Lighter Indigo for hover */
+  --sidebar-active: #4f46e5;   /* Bright Indigo for highlighting active states */
+  --text-main: #f8fafc;        /* Off-white */
+  --border-color: #334155;     /* Slate border */
+}
+
+/* Admin Dashboard Layout Wrapper */
+.dashboard-admin {
+  display: flex;
+  min-height: 100vh;           /* Adjusted to fill the screen nicely */
+  background-color: #f8fafc;   /* Light gray body background to contrast the sidebar */
+}
+
+/* Main Content Area */
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Sidebar Container */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background-color: var(--sidebar-bg);
+  color: var(--text-main);
+  border-right: 1px solid var(--border-color);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Navigation List */
+.sidebar ul {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+}
+
+/* List Items */
+.sidebar ul li {
+  margin: 4px 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: var(--sidebar-hover);
+}
+
+/* Anchor tags inside sidebar */
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Icon Containers */
+.sidebar .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  width: 24px;
+}
+
+/* Label Texts */
+.sidebar ul li a span {
+  margin-left: 16px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* --- Responsive Adjustments for Tablets/Mobile --- */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70px; /* Comfortably fits just the icons */
+  }
+
+  .sidebar ul li {
+    margin: 6px 8px;
+  }
+
+  .sidebar ul li a {
+    padding: 14px 0;
+    justify-content: center;
+  }
+
+  /* Hide the text labels on smaller screens */
+  .sidebar ul li a span {
+    display: none;
+    opacity: 0;
+  }
 }
